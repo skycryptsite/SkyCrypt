@@ -1,0 +1,307 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap") layer(base);
+@import "tailwindcss";
+@plugin "./plugins/text-shadow.ts";
+@plugin "./plugins/themes.ts";
+@source "./safelist.ts";
+@source "app.html";
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+@theme {
+  /* Colors */
+  --color-icon: var(--icon);
+  --color-link: var(--link);
+  --color-hover: var(--hover);
+  --color-skillbar: var(--skillbar);
+  --color-maxedbar: var(--maxedbar);
+  --color-maxed: var(--maxed);
+  --color-gold: var(--gold);
+  --color-text: var(--text);
+  --color-background: var(--background);
+  --color-background-grey: var(--grey_background);
+  --color-background-lore: var(--lore_background);
+  --color-header: var(--header);
+  --color-bg: var(--bg);
+  --color-logo: var(--logo);
+
+  /* Text Shadow */
+  --txt-shadow-sm: 0 0px 2px var(--tw-shadow-color);
+  --txt-shadow: 0 0px 4px var(--tw-shadow-color);
+  --txt-shadow-lg: 0 0px 8px var(--tw-shadow-color);
+  --tw-shadow-color: --alpha(var(--color-background) / 50%);
+
+  /* Animations */
+  --animate-shine: shine 4s infinite;
+  --animate-spin-slow: spin 3s linear infinite;
+
+  @keyframes shine {
+    0% {
+      transform: translateY(120%);
+    }
+    33%,
+    100% {
+      transform: translateY(-120%);
+    }
+  }
+
+  /* Fonts */
+  --font-icomoon: "icomoon", "Montserrat";
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@theme inline {
+  --color-minecraft-0: var(--§0);
+  --color-minecraft-1: var(--§1);
+  --color-minecraft-2: var(--§2);
+  --color-minecraft-3: var(--§3);
+  --color-minecraft-4: var(--§4);
+  --color-minecraft-5: var(--§5);
+  --color-minecraft-6: var(--§6);
+  --color-minecraft-7: var(--§7);
+  --color-minecraft-8: var(--§8);
+  --color-minecraft-9: var(--§9);
+  --color-minecraft-a: var(--§a);
+  --color-minecraft-b: var(--§b);
+  --color-minecraft-c: var(--§c);
+  --color-minecraft-d: var(--§d);
+  --color-minecraft-e: var(--§e);
+  --color-minecraft-f: var(--§f);
+}
+
+@layer base {
+  @font-face {
+    font-family: "icomoon";
+    src:
+      url("/fonts/icomoon/icomoon.woff2") format("woff2"),
+      url("/fonts/icomoon/icomoon.woff") format("woff"),
+      url("/fonts/icomoon/icomoon.ttf") format("truetype"),
+      url("/fonts/icomoon/icomoon.svg#icomoon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+    unicode-range:
+      /* ✪ dungeon-star */
+      U+272A,
+      /* ⍟ dungeon-master-star (no longer used) */ U+235F,
+      /* ⚔ attack-speed */ U+2694,
+      /* ☣ critical-chance */ U+2623,
+      /* ☠ critical-damage */ U+2620,
+      /* ❈ defense */ U+2748,
+      /* ☘ fortune */ U+2618,
+      /* ⫽ ferocity */ U+2AFD,
+      /* ❤ health */ U+2764,
+      /* ✎ intelligence */ U+270E,
+      /* ✯ magic-find */ U+272F,
+      /* ⸕ mining-speed */ U+2E15,
+      /* ♣ pet-luck */ U+2663,
+      /* ✧ pristine */ U+2727,
+      /* α sea-creature-chance */ U+03B1,
+      /* ✦ speed */ U+2726,
+      /* ❁ strength */ U+2741,
+      /* ๑ ability-damage */ U+0E51,
+      /* ➊ 1-dungeon-star */ U+278A,
+      /* ➋ 2-dungeon-star */ U+278B,
+      /* ➌ 3-dungeon-star */ U+278C,
+      /* ➍ 4-dungeon-star */ U+278D,
+      /* ➎ 5-dungeon-star */ U+278E,
+      /* ❂ true-defense, */ U+2742,
+      /* ⸎ soulflow */ U+2E0E,
+      /* ᠅ powder, */ U+1805,
+      /* ✿ dye, */ U+273F,
+      /* ⚚ dungeon-upgrade, */ U+269A;
+  }
+
+  /* For color preview to work you need to have the 'naumovs.color-highlight' extension installed */
+  :root {
+    /* Icon Green (used for Skill Icons, Underlines etc.) */
+    /* --icon: oklch(0.74 0.21 147.69) */
+
+    /* Link Green (used for Links, Unclaimed Slayers, Crafted Minions etc.) */
+    /* --link: oklch(0.82 0.25 146.24) */
+
+    /* Hover Green (used only for link hovers) */
+    /* --hover: oklch(0.84 0.23 149.89) */
+
+    /* Skill Bar Green (used for Skill Progress Bars) */
+    /* --skillbar: oklch(0.64 0.17 150.18) */
+
+    /* Maxed Bar Gold (used for Maxed Progress Bars) */
+    /* --maxedbar: oklch(0.70 0.14 76.74) */
+
+    /* Maxed Gold (used for Maxed things etc.) */
+    /* --maxed: oklch(0.73 0.15 75.86) */
+
+    /* Golden Text (used for Golden Text) */
+    /* --gold: oklch(0.83 0.15 78.27) */
+
+    /* Most of the text */
+    --text: oklch(1 0 0);
+    /* background to make text more visible */
+    --background: oklch(0 0 0);
+    /* background of the header */
+    --header: oklch(0.28 0 0);
+    /* used for info box and theme/pack selector */
+    --grey_background: oklch(0.24 0 0);
+    /* used for item lore */
+    --lore_background: oklch(0.17 0 0 / 0.9);
+
+    /* used when --bg can't be used */
+    --bg: oklch(0.18 0 0);
+
+    /* Header Logo */
+    --logo: url(/img/app-icons/svg.svg);
+
+    /* Normal Background */
+    --bg: url(/img/bg.avif);
+
+    color-scheme: dark;
+  }
+
+  [data-tooltip-content] {
+    @apply text-sm text-pretty;
+  }
+
+  [data-arrow] {
+    @apply text-background-grey;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--icon);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  *:focus-visible {
+    outline: var(--color-skillbar) auto 1px;
+  }
+
+  *::selection {
+    background-color: var(--color-link);
+    color: var(--color-text);
+    text-shadow: var(--txt-shadow-lg);
+  }
+
+  *::target-text {
+    background-color: var(--color-skillbar);
+    color: var(--color-text);
+    text-shadow: var(--txt-shadow);
+  }
+}
+
+@layer components {
+  .virtual-list-wrapper {
+    @apply overflow-x-hidden overflow-y-auto;
+  }
+
+  .virtual-list-inner {
+    @apply overflow-x-auto overflow-y-clip;
+  }
+}
+
+@utility nice-colors-dark {
+  /* these colors look nice and have significant contrast with white */
+  --§0: oklch(0 0 0);
+  --§1: oklch(0.32 0.14 264.6);
+  --§2: oklch(0.64 0.22 142.5);
+  --§3: oklch(0.58 0.1 194.78);
+  --§4: oklch(0.42 0.17 28.49);
+  --§5: oklch(0.5 0.23 328.34);
+  --§6: oklch(0.71 0.15 72.75);
+  --§7: oklch(0.5 0 0);
+  --§8: oklch(0.31 0 0);
+  --§9: oklch(0.51 0.25 273.16);
+  --§a: oklch(0.7 0.2 143.13);
+  --§b: oklch(0.69 0.11 211.66);
+  --§c: oklch(0.56 0.17 24.75);
+  --§d: oklch(0.7 0.19 338.3);
+  --§e: oklch(0.84 0.17 93.53);
+  --§f: oklch(0.66 0 0);
+}
+
+@utility light {
+  --text: oklch(0 0 0);
+  --background: oklch(1 0 0);
+  --header: oklch(0.89 0 0);
+  --grey_background: oklch(0.92 0 0);
+  --lore_background: oklch(1 0 0 / 0.93);
+
+  --bg: oklch(1 0 0) color-scheme: light;
+}
+
+@utility shine {
+  @apply before:animate-shine overflow-hidden before:pointer-events-none before:absolute before:inset-0 before:z-8 before:size-full before:rounded-lg before:bg-linear-to-t before:from-[oklch(1_0_0_/_0)] before:via-[oklch(1_0_0_/_0.50)] before:to-[oklch(0.77_0.09_243.21_/_0)];
+}
+
+@utility enchanted {
+  filter: url(#enchanted-glint);
+}
+
+@utility enchanted-item {
+  filter: url(#enchanted-glint) drop-shadow(2px 2px 2px oklch(0 0 0 / 0.4));
+}
+
+@utility true-colors {
+  /* Minecraft color codes */
+  --§0: oklch(0 0 0);
+  --§1: oklch(0.33 0.23 264.05);
+  --§2: oklch(0.64 0.22 142.5);
+  --§3: oklch(0.67 0.11 194.77);
+  --§4: oklch(0.46 0.19 29.23);
+  --§5: oklch(0.52 0.24 328.36);
+  --§6: oklch(0.8 0.17 73.27);
+  --§7: oklch(0.74 0 0);
+  --§8: oklch(0.45 0 0);
+  --§9: oklch(0.56 0.24 275.12);
+  --§a: oklch(0.88 0.25 143.06);
+  --§b: oklch(0.91 0.14 195.03);
+  --§c: oklch(0.68 0.21 24.43);
+  --§d: oklch(0.74 0.27 327.9);
+  --§e: oklch(0.97 0.18 109.38);
+  --§f: oklch(1 0 0);
+}
+
+@utility april-fools-2024 {
+  --§0: oklch(0.65 0.26 356.94);
+  --§1: oklch(0.66 0.23 35.4);
+  --§2: oklch(0.66 0.28 347.13);
+  --§3: oklch(0.66 0.24 4.74);
+  --§4: oklch(0.28 0.1 10.33);
+  --§5: oklch(0.72 0.14 356.27);
+  --§6: oklch(0.65 0.16 357.22);
+  --§7: oklch(0.67 0.24 357.79);
+  --§8: oklch(0.62 0.18 334.19);
+  --§9: oklch(0.83 0.09 357.41);
+  --§a: oklch(0.91 0.04 355.91);
+  --§b: oklch(0.44 0.15 4.7);
+  --§c: oklch(0.28 0.1 10.33);
+  --§d: oklch(0.55 0.16 0.51);
+  --§e: oklch(0.73 0.2 351.99);
+  --§f: oklch(0.97 0.01 350.09);
+}
+
+@utility nice-colors-light {
+  /* these colors look nice and have significant contrast with black */
+  --§0: oklch(0.54 0 0);
+  --§1: oklch(0.5 0.28 269.85);
+  --§2: oklch(0.66 0.23 142.5);
+  --§3: oklch(0.71 0.12 185.91);
+  --§4: oklch(0.5 0.19 27.28);
+  --§5: oklch(0.66 0.3 328.31);
+  --§6: oklch(0.8 0.17 73.27);
+  --§7: oklch(0.78 0 0);
+  --§8: oklch(0.68 0 0);
+  --§9: oklch(0.66 0.16 273.97);
+  --§a: oklch(0.79 0.2 143.36);
+  --§b: oklch(0.81 0.11 211.69);
+  --§c: oklch(0.68 0.2 24.09);
+  --§d: oklch(0.74 0.23 336.42);
+  --§e: oklch(0.94 0.16 109.12);
+  --§f: oklch(1 0 0);
+}
