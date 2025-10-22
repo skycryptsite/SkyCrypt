@@ -1,7 +1,7 @@
 <script lang="ts">
   import { replaceState } from "$app/navigation";
   import { page } from "$app/state";
-  import { getProfileCtx } from "$ctx/profile.svelte";
+  import { getProfileContext } from "$ctx";
   import type { SectionName } from "$lib/sections/types";
   import { tabValue } from "$lib/stores/internal";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
@@ -9,13 +9,11 @@
   import ChevronRight from "@lucide/svelte/icons/chevron-right";
   import { Button, ScrollArea } from "bits-ui";
   import { onDestroy, onMount, tick, type Snippet } from "svelte";
-
   const { children }: { children?: Snippet } = $props();
 
-  const ctx = getProfileCtx();
-  const profile = $derived(ctx.profile);
+  const profile = $derived(getProfileContext());
 
-  const apiSettings = $derived(Object.entries(profile.apiSettings).filter(([_, value]) => !value));
+  const apiSettings = $derived(Object.entries(profile.apiSettings ?? {}).filter(([_, value]) => !value));
   const disabledApiSettings: string[] = $derived(apiSettings.map(([key]) => key));
 
   const filteredSectionOrderPreferences = $derived(
@@ -88,10 +86,21 @@
       console.warn("Navbar element is not defined");
       return;
     }
-    observer = new IntersectionObserver(([e]) => (pinned = e.intersectionRatio < 1), {
-      threshold: [1],
-      rootMargin: `-${parseInt(window.getComputedStyle(navbarElement).getPropertyValue("top")) + 1}px 0px` // shrink the viewport to element top value +1px to trigger observer when element has reach it's sticky position
-    });
+
+    const topValue = parseInt(window.getComputedStyle(navbarElement).getPropertyValue("top"));
+
+    observer = new IntersectionObserver(
+      ([e]) => {
+        // Check if the element has reached its sticky position by comparing
+        // its actual top position to the CSS top value
+        const hasReachedStickyPosition = e.boundingClientRect.top <= topValue;
+        pinned = hasReachedStickyPosition && e.intersectionRatio < 1;
+      },
+      {
+        threshold: [1],
+        rootMargin: `-${topValue + 1}px 0px` // shrink the viewport to element top value +1px to trigger observer when element has reach it's sticky position
+      }
+    );
 
     observer.observe(navbarElement);
   }
@@ -116,6 +125,7 @@
     if (navbarElement && $tabValue) {
       tick().then(() => {
         scrollToTab({ element: allLinks[$tabValue], smooth: true });
+        // eslint-disable-next-line svelte/no-navigation-without-resolve
         replaceState("#" + $tabValue, page.state);
       });
     }
@@ -124,18 +134,18 @@
 
 <ScrollArea.Root type="always" class="navbar group !sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20 overflow-clip" data-pinned={pinned} bind:ref={navbarElement}>
   <ScrollArea.Viewport>
-    <div class="text-text/80 flex! flex-nowrap items-center gap-2 pb-2 font-semibold whitespace-nowrap">
-      <div class="bg-icon absolute bottom-[0.4375rem] z-1 h-[2px] w-[calc(100%+0.5rem)]"></div>
+    <div class="flex! flex-nowrap items-center gap-2 pb-2 font-semibold whitespace-nowrap text-text/80">
+      <div class="absolute bottom-[0.4375rem] z-1 h-[2px] w-[calc(100%+0.5rem)] bg-icon"></div>
       <div class="absolute inset-0 bottom-2 group-data-[pinned=true]:group-data-[mode=dark]/html:bg-[oklch(19.13%_0_0)]/90 group-data-[pinned=true]:group-data-[mode=light]/html:bg-[oklch(95.51%_0_0)]/92"></div>
       {#each filteredSectionOrderPreferences as section, index (index)}
-        <Button.Root class="after:bg-icon data-[active=true]:text-text relative px-2 py-3 after:absolute after:top-full after:left-0 after:h-0 after:w-full after:origin-top after:rounded-full after:transition-all after:duration-100 after:ease-out hover:after:top-[calc(100%-4px)] hover:after:h-2 data-[active=true]:after:top-[calc(100%-4px)] data-[active=true]:after:h-2" data-id={section.name} data-active={$tabValue === section.name} bind:ref={allLinks[section.name]} onclick={() => handleSectionClick(section.name)}>
+        <Button.Root class="relative px-2 py-3 after:absolute after:top-full after:left-0 after:h-0 after:w-full after:origin-top after:rounded-full after:bg-icon after:transition-all after:duration-100 after:ease-out hover:after:top-[calc(100%-4px)] hover:after:h-2 data-[active=true]:text-text data-[active=true]:after:top-[calc(100%-4px)] data-[active=true]:after:h-2" data-id={section.name} data-active={$tabValue === section.name} bind:ref={allLinks[section.name]} onclick={() => handleSectionClick(section.name)}>
           {section.name?.replaceAll("_", " ")}
         </Button.Root>
       {/each}
     </div>
   </ScrollArea.Viewport>
   <ScrollArea.Scrollbar orientation="horizontal" class="z-10 flex h-0.5 w-full origin-center -translate-y-[0.44rem] touch-none transition-all duration-300 ease-out select-none group-hover:h-2 group-hover:-translate-y-1">
-    <ScrollArea.Thumb class="bg-icon rounded-full" />
+    <ScrollArea.Thumb class="rounded-full bg-icon" />
   </ScrollArea.Scrollbar>
 </ScrollArea.Root>
 
@@ -144,7 +154,7 @@
 
   <div class="flex items-center justify-between">
     {#if previousSection}
-      <Button.Root class="bg-icon flex items-center justify-between rounded-lg px-4 py-2 text-lg" onclick={() => handleSectionClick(previousSection.name ?? filteredSectionOrderPreferences[0].name)}>
+      <Button.Root class="flex items-center justify-between rounded-lg bg-icon px-4 py-2 text-lg" onclick={() => handleSectionClick(previousSection.name ?? filteredSectionOrderPreferences[0].name)}>
         <ChevronLeft />
         {previousSection.name.replaceAll("_", " ")}
       </Button.Root>
@@ -152,7 +162,7 @@
       <div></div>
     {/if}
     {#if nextSection}
-      <Button.Root class="bg-icon flex items-center justify-between rounded-lg px-4 py-2 text-lg" onclick={() => handleSectionClick(nextSection.name ?? filteredSectionOrderPreferences[filteredSectionOrderPreferences.length - 1].name)}>
+      <Button.Root class="flex items-center justify-between rounded-lg bg-icon px-4 py-2 text-lg" onclick={() => handleSectionClick(nextSection.name ?? filteredSectionOrderPreferences[filteredSectionOrderPreferences.length - 1].name)}>
         {nextSection.name.replaceAll("_", " ")}
         <ChevronRight />
       </Button.Root>
