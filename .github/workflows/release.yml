@@ -24,8 +24,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: PNPM Install
-        uses: ./.github/actions/pnpm-install
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm fetch && pnpm install --frozen-lockfile
+        env:
+          HUSKY: "0"
 
       - name: Enter pre-release mode
         run: pnpm changeset pre enter beta 2>/dev/null || true
@@ -70,6 +84,7 @@ jobs:
 
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Git checkout
@@ -78,45 +93,52 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: PNPM Install
-        uses: ./.github/actions/pnpm-install
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
 
-      - name: Configure Git
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm fetch && pnpm install --frozen-lockfile
+        env:
+          HUSKY: "0"
+
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset pre exit && pnpm changeset:version
+          title: "Version Packages (Stable)"
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Create Stable GitHub Release
+        if: steps.changesets.outputs.hasChangesets == 'false'
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          VERSION=$(node -p "require('./package.json').version")
 
-      - name: Exit pre-release and create stable version
-        run: |
-          CURRENT_VERSION=$(node -p "require('./package.json').version")
-
-          # Exit pre-release mode if active
-          if [ -f ".changeset/pre.json" ] && node -e "process.exit(require('./.changeset/pre.json').mode === 'pre' ? 0 : 1)" 2>/dev/null; then
-            pnpm changeset pre exit
-            pnpm changeset version
-          elif ls .changeset/*.md 2>/dev/null | grep -v README.md | head -1 >/dev/null 2>&1; then
-            # Not in pre-release but there are changesets to consume
-            pnpm changeset version
-          else
-            echo "Nothing to release"
+          if echo "$VERSION" | grep -q "beta"; then
+            echo "Current version ($VERSION) is still a beta, skipping"
             exit 0
           fi
 
-          NEW_VERSION=$(node -p "require('./package.json').version")
+          TAG="v${VERSION}"
 
-          if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
-            echo "Version unchanged ($CURRENT_VERSION), nothing to release"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping"
             exit 0
           fi
 
-          TAG="v${NEW_VERSION}"
-
-          git add .
-          git commit -m "chore: release ${TAG}"
           git tag "$TAG"
-          git push origin HEAD
           git push origin "$TAG"
-
           gh release create "$TAG" --title "$TAG" --generate-notes --latest
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
