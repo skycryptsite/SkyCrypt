@@ -27,7 +27,7 @@
 
   type Props = {
     animationOptions?: AnimationOptions;
-    image: ImageProps;
+    image?: ImageProps;
     class?: string;
     children?: Snippet;
     progress?: Snippet;
@@ -41,11 +41,11 @@
   let hasBeenInViewport = $state(false);
   let open = $state(false);
 
-  const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
+  const inViewport = $derived(image ? new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 }) : undefined);
   const internalState = getInternalState();
 
   $effect(() => {
-    if (inViewport.current && !hasBeenInViewport) {
+    if (inViewport?.current && !hasBeenInViewport) {
       hasBeenInViewport = true;
     }
   });
@@ -57,7 +57,7 @@
   onclick={() => (internalState.content = tooltip)}
   tether={genericTooltipTether}
   payload={{
-    class: "z-50 rounded-lg bg-background-grey p-4",
+    class: "z-50 max-w-md rounded-lg bg-background-grey p-4 break-normal wrap-break-word whitespace-normal!",
     sideOffset: 6,
     side: "top",
     align: "center",
@@ -68,17 +68,19 @@
   {#snippet child({ props })}
     <div {...props} bind:this={targetNode} in:fade={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.index + 1) : 0, easing: cubicOut }} out:fade={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.amountOfItems - animationOptions.index) : 0, easing: cubicOut }}>
       <div class="flex items-center gap-2 px-2">
-        {#if hasBeenInViewport}
-          <Avatar.Root class="aspect-square size-12">
-            <Avatar.Image loading="lazy" src={image.src} class={cn("size-full object-contain [image-rendering:pixelated]", image.class)} />
-            <Avatar.Fallback>
-              <Image class="size-full" />
-            </Avatar.Fallback>
-          </Avatar.Root>
-        {:else}
-          <div>
-            <Image class="size-12" />
-          </div>
+        {#if image}
+          {#if hasBeenInViewport}
+            <Avatar.Root class="aspect-square size-12">
+              <Avatar.Image loading="lazy" src={image.src} class={cn("size-full object-contain [image-rendering:pixelated]", image.class)} />
+              <Avatar.Fallback>
+                <Image class="size-full" />
+              </Avatar.Fallback>
+            </Avatar.Root>
+          {:else}
+            <div>
+              <Image class="size-12" />
+            </div>
+          {/if}
         {/if}
         {@render propsChildren?.()}
       </div>
