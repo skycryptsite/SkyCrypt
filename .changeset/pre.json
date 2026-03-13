@@ -1,0 +1,15 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "skycrypt-frontend": "3.2.0"
+  },
+  "changesets": [
+    "cyan-otters-cough",
+    "modern-carrots-change",
+    "odd-teams-act",
+    "slimy-beans-brake",
+    "tasty-stamps-scream",
+    "upset-times-act"
+  ]
+}

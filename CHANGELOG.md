@@ -1,16 +1,12 @@
 # Changelog
 
-## 3.3.1
+## 3.3.1-beta.3
 
 ### Patch Changes
 
-- chore: update config to match default config generated via sv@0.12.6 ([#285](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/pull/285))
+- fix: replace createHover with manual hover state management in Skillbar component ([`133d0c8`](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/commit/133d0c82290885b03a8b6ec908f9aff9588e0a3c))
 
-- feat: enhance CI workflows with CodeQL analysis and stable release process ([#286](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/pull/286))
-
-- refactor: update release workflows ([#285](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/pull/285))
-
-- fix: tooltip does not update when hovering over items too quickly #282 ([#285](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/pull/285))
+- feat: migrate to @dndkit from svelte-dnd-action ([`af1100b`](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/commit/af1100bc4f2c982e4d58d705a456cb23f927d810))
 
 ## 3.3.1-beta.2
 
