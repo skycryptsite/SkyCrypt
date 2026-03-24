@@ -2,9 +2,9 @@
   "mode": "pre",
   "tag": "beta",
   "initialVersions": {
-    "skycrypt-frontend": "3.3.2"
+    "skycrypt-frontend": "3.3.3"
   },
   "changesets": [
-    "warm-cooks-reply"
+    "puny-owls-say"
   ]
 }
