@@ -1,4 +1,4 @@
-import { dev } from "$app/environment";
+import { building, dev } from "$app/environment";
 import { env } from "$env/dynamic/public";
 import appStyles from "$src/app.css?inline";
 import { DefaultCard } from "$src/lib/components/cards";
@@ -6,7 +6,7 @@ import ErrorCard from "$src/lib/components/cards/default/ErrorCard.svelte";
 import { parseSettingsFromParams } from "$src/lib/components/cards/default/schema";
 import { getApiUuidUsername, type ModelsPlayerResolve } from "$src/lib/shared/api/orval-generated";
 import { getDungeonsSection, getNetworth, getProfileStats } from "$src/lib/shared/api/skycrypt-api.remote";
-import type { Font, ImageSource } from "@takumi-rs/core";
+import type { ImageResponseOptionsWithoutRenderer } from "@takumi-rs/image-response";
 import { ImageResponse } from "@takumi-rs/image-response";
 import { html as toReactNode } from "satori-html";
 import { render } from "svelte/server";
@@ -55,7 +55,6 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
         ...request.headers,
         "cache-control": dev || isSameOrigin ? "no-cache, no-store, must-revalidate" : "public, max-age=86400, immutable"
       },
-      drawDebugBorder: !dev,
       stylesheets: [appStyles],
       fonts,
       persistentImages,
@@ -83,7 +82,6 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
           ...request.headers,
           "cache-control": "no-cache, no-store, must-revalidate"
         },
-        drawDebugBorder: !dev,
         stylesheets: [appStyles],
         fonts,
         persistentImages,
@@ -102,6 +100,7 @@ export const GET: RequestHandler = async ({ params, request, url }) => {
 };
 
 async function initializeAssets() {
+  if (building) return { fonts: [], persistentImages: [] };
   const [
     // prettier-ignore
     montserratNormalBuffer,
@@ -118,7 +117,7 @@ async function initializeAssets() {
     fetch(`${baseUrl}/img/bg.png`).then((res) => res.arrayBuffer())
   ]);
 
-  const fonts: Font[] = [
+  const fonts: ImageResponseOptionsWithoutRenderer["fonts"] = [
     {
       name: "Montserrat",
       data: montserratNormalBuffer
@@ -133,7 +132,7 @@ async function initializeAssets() {
     }
   ];
 
-  const persistentImages: ImageSource[] = [
+  const persistentImages: ImageResponseOptionsWithoutRenderer["persistentImages"] = [
     {
       src: "skycrypt-logo",
       data: skycryptLogo
