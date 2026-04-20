@@ -1,0 +1,33 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "explicit"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss",
+    ".env*": "properties"
+  },
+  "git.autofetch": true,
+  "svelte.enable-ts-plugin": true,
+  "svelte.plugin.svelte.defaultScriptLanguage": "ts",
+  "tailwindCSS.classAttributes": ["class", "class:*", "class:name", "payload"],
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.classFunctions": ["cn", "clsx"],
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "plaintext": "html",
+    "javascript": "javascript",
+    "typescript": "typescript",
+    "svelte": "html"
+  },
+  "js/ts.updateImportsOnFileMove.enabled": "prompt",
+  "eslint.validate": ["javascript", "typescript", "svelte"],
+  "prettier.documentSelectors": ["**/*.svelte"],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github/commit-message.instructions.md"
+    }
+  ]
+}
