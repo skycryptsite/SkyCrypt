@@ -18,8 +18,8 @@ A website that provides per-player information about the game Hypixel SkyBlock.
 
 Originally inspired by [LeaPhant's skyblock-stats](https://github.com/LeaPhant/skyblock-stats).
 
-- **Website**: https://sky.shiiyu.moe
-- **Development Website**: https://cupcake.shiiyu.moe
+- **Website**: https://sky.shiiiyu.moe
+- **Development Website**: https://cupcake.shiiiyu.moe
 - **Backend**: [SkyCrypt-Backend](https://github.com/SkyCryptWebsite/SkyCrypt-Backend)
 
 ---
