@@ -9,7 +9,7 @@
 <p align='center'>
   <a href="https://www.patreon.com/shiiyu"><img alt="Sponsor" src="https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white" /></a>
   &nbsp;
-  <a href="https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/SkyCryptWebsite/SkyCrypt-Frontend?style=for-the-badge" /></a>
+  <a href="https://github.com/skycryptsite/SkyCrypt/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/skycryptsite/SkyCrypt?style=for-the-badge" /></a>
   &nbsp;
   <a href="https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/actions/workflows/website.yml"><img alt="GitHub Repo stars" src="https://img.shields.io/github/actions/workflow/status/SkyCryptWebsite/SkyCrypt-Frontend/website.yml?branch=prod&style=for-the-badge" /></a>
 </p>
