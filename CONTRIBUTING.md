@@ -1,6 +1,6 @@
 # Contributing to SkyCrypt
 
-Before contributing to SkyCrypt, make sure you install the development environment first. If you have trouble building SkyCrypt or have any development questions, please don't hesitate to contact us on [Discord](https://discord.gg/cNgADv2kEQ)!
+Before contributing to SkyCrypt, make sure you install the development environment first. If you have trouble building SkyCrypt or have any development questions, please don't hesitate to contact us on [Discord](https://discord.gg/shiiyu)!
 
 ## Prerequisite Software
 
@@ -9,7 +9,7 @@ Before contributing to SkyCrypt, make sure you install the development environme
 
 ## Backend
 
-SkyCrypt-Frontend, as the name suggests, is the frontend of SkyCrypt. The backend is a separate repository called [SkyCrypt-Backend](https://github.com/SkyCryptWebsite/SkyCrypt-Backend).
+SkyCrypt is the frontend of SkyCrypt. The backend is a separate repository called [SkyCrypt-Backend](https://github.com/SkyCryptWebsite/SkyCrypt-Backend).
 
 > [!IMPORTANT]  
 > You will need to set up the backend in order to process and get the data for the frontend to show.
@@ -19,7 +19,7 @@ SkyCrypt-Frontend, as the name suggests, is the frontend of SkyCrypt. The backen
 1. Clone the repository. You can do this on the command line by running
 
    ```
-   git clone https://github.com/SkyCryptWebsite/SkyCrypt-Frontend.git
+   git clone https://github.com/skycryptsite/SkyCrypt.git
    ```
 
    Alternatively, you can use a git GUI like GitHub Desktop or VS Code to clone it.
@@ -114,8 +114,8 @@ The `.changeset/*.md` files are temporary release inputs:
 
 ## Issues
 
-If you find a bug or have a feature request, please open an issue on GitHub or on our [Discord server](https://discord.gg/cNgADv2kEQ) (preferred). When opening an issue, please provide as much information as possible, follow the issue template, and include any relevant screenshots or error messages. This will help us understand the problem and address it more quickly.
+If you find a bug or have a feature request, please open an issue on GitHub or on our [Discord server](https://discord.gg/shiiyu) (preferred). When opening an issue, please provide as much information as possible, follow the issue template, and include any relevant screenshots or error messages. This will help us understand the problem and address it more quickly.
 
 ## License
 
-By contributing to SkyCrypt, you agree that your contributions will be licensed under the [MIT License](https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/blob/prod/LICENSE). This means that your contributions will be open source and available for anyone to use, modify, and distribute.
+By contributing to SkyCrypt, you agree that your contributions will be licensed under the [MIT License](https://github.com/skycryptsite/SkyCrypt/blob/main/LICENSE). This means that your contributions will be open source and available for anyone to use, modify, and distribute.

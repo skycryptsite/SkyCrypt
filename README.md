@@ -11,7 +11,7 @@
   &nbsp;
   <a href="https://github.com/skycryptsite/SkyCrypt/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/skycryptsite/SkyCrypt?style=for-the-badge" /></a>
   &nbsp;
-  <a href="https://github.com/SkyCryptWebsite/SkyCrypt-Frontend/actions/workflows/website.yml"><img alt="GitHub Repo stars" src="https://img.shields.io/github/actions/workflow/status/SkyCryptWebsite/SkyCrypt-Frontend/website.yml?branch=prod&style=for-the-badge" /></a>
+  <a href="https://github.com/skycryptsite/SkyCrypt/actions/workflows/website.yml"><img alt="GitHub Repo stars" src="https://img.shields.io/github/actions/workflow/status/skycryptsite/SkyCrypt/website.yml?branch=main&style=for-the-badge" /></a>
 </p>
 
 A website that provides per-player information about the game Hypixel SkyBlock.
@@ -20,6 +20,7 @@ Originally inspired by [LeaPhant's skyblock-stats](https://github.com/LeaPhant/s
 
 - **Website**: https://sky.shiiiyu.moe
 - **Development Website**: https://cupcake.shiiiyu.moe
+- **Discord**: https://discord.gg/shiiyu
 - **Backend**: [SkyCrypt-Backend](https://github.com/SkyCryptWebsite/SkyCrypt-Backend)
 
 ---
